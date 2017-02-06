@@ -1,6 +1,6 @@
 {
   "name": "@karlcode/d3-health-service-grid",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./index.js",
   "types": "./index.d.ts",
   "description": "1024x768 widget shows patient health and dependent patients as rings around patient blob. 100% fills space given.",
