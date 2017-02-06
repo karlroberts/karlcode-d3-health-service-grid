@@ -1,6 +1,6 @@
 {
   "name": "@karlcode/d3-health-service-grid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./index.js",
   "types": "./index.d.ts",
   "description": "1024x768 widget shows patient health and dependent patients as rings around patient blob. 100% fills space given.",
@@ -47,7 +47,7 @@
     "@types/jasmine": "^2.5.36",
     "@types/selenium-webdriver": "^2.53.33"
   },
-  "repository": "github:/karlroberts/foobarwtf",
+  "repository": "ssh://git@bitbucket.org/karl_roberts/karlcode-d3-health-service-grid.git",
   "publishConfig": {
       "registry":"https://nexus.aws.avocado.com.au/repository/npm-hosted-s3"
   }
