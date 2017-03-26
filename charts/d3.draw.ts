@@ -8,6 +8,8 @@ import constants from './constants';
 import utils from '@karlcode/d3-utils';
 import chartutils from './chartutils';
 
+import  { graphs } from '@karlcode/d3-utils';
+
 // import shims from '../utils/polyfill/index'
 
 let bestSquareTiles = utils.geometry.bestSquareTiles;
@@ -22,7 +24,7 @@ export function statusRings() {
     num = 0, // which pie on the page are we?
     w = 1024, //number of internal units
     h = 768,
-    data: mytypes.Graph  = {
+    data: graphs.Graph  = {
       nodes: [],
       links: []
     }; //default empty data array // empty signifies no doublefalted connections
@@ -32,7 +34,7 @@ export function statusRings() {
   
   
 
-  let my = <mytypes.ChartFunction<d3.Selection<SVGSVGElement, any, null, undefined>, mytypes.Graph, any, void>> function my(placeholder: d3.Selection<SVGSVGElement, any, null, undefined>, thedata: mytypes.Graph, dispatch: D3.Dispatch<any> ): void  {
+  let my = <graphs.ChartFunction<d3.Selection<SVGSVGElement, any, null, undefined>, graphs.Graph, any, void>> function my(placeholder: d3.Selection<SVGSVGElement, any, null, undefined>, thedata: graphs.Graph, dispatch: D3.Dispatch<any> ): void  {
     // generate chart here, using `width` and `height`
     //NB width and height are really just the aspe, ct ratio
     // real size is forced by outer div. viewport scales it.
@@ -164,20 +166,20 @@ export function statusRings() {
     }
 
     interface NodeColourizer {
-      (d: mytypes.Node): d3.ColorCommonInstance,
-      darker(d: mytypes.Node): d3.ColorCommonInstance,
-      lighter(d: mytypes.Node): d3.ColorCommonInstance
+      (d: graphs.Node): d3.ColorCommonInstance,
+      darker(d: graphs.Node): d3.ColorCommonInstance,
+      lighter(d: graphs.Node): d3.ColorCommonInstance
     }
 
-    let colourNode = <NodeColourizer>function (d: mytypes.Node) : d3.ColorCommonInstance {
+    let colourNode = <NodeColourizer>function (d: graphs.Node) : d3.ColorCommonInstance {
       return chartutils.colourizeNode(d.status);
     }
 
-    colourNode.darker = function (d: mytypes.Node): d3.ColorCommonInstance {
+    colourNode.darker = function (d: graphs.Node): d3.ColorCommonInstance {
       return this(d).darker();
     }
 
-    colourNode.lighter = function (d: mytypes.Node): d3.ColorCommonInstance {
+    colourNode.lighter = function (d: graphs.Node): d3.ColorCommonInstance {
       return this(d).brighter();
     }
 
@@ -283,20 +285,20 @@ export function statusRings() {
 
 
 
-    serviceCirc.on('mouseover', function (d: mytypes.Node, i: number) {
+    serviceCirc.on('mouseover', function (d: graphs.Node, i: number) {
         //this.parentNode.appendChild(this);
         D3.select(this).style("cursor", "pointer"); //we have a click event so set pointer as indicator that we can be clicked
         dispatch.call('nodeHovered', this, d, i, nodenames[i]);
       })
-      .on('mouseout', function (d: mytypes.Node, i: number) {
+      .on('mouseout', function (d: graphs.Node, i: number) {
         dispatch.call('nodeAbandoned', this, d, i, nodenames[i]);
       })
-      .on('click', function (d: mytypes.Node, i: number) {
+      .on('click', function (d: graphs.Node, i: number) {
         dispatch.call('nodeClicked', this ,d, i, nodenames[i]);
       })
 
     /* find dependants for this node add them as arcs */
-    var arcs = squareG.selectAll('path.dependant').data(function (d: mytypes.Node, j: number) {
+    var arcs = squareG.selectAll('path.dependant').data(function (d: graphs.Node, j: number) {
       var deps = (!!d.service.dependsOn) ? d.service.dependsOn : [];
       // pimp each dep with knowldge of length of array
      //  deps = Array.prototype.slice.call(deps);
@@ -364,12 +366,12 @@ export function statusRings() {
       .style("text-anchor", "middle")
       .style("opacity", 0)
 
-    .attr("x", function (d: mytypes.Node) {
+    .attr("x", function (d: graphs.Node) {
         //        return ((w / currentStatusArray.length) / 2)
         return 0;
       })
       .attr("y", 0)
-      .text(function (d: mytypes.Node) {
+      .text(function (d: graphs.Node) {
         var sname = d.service.name;
         return (!!sname) ? chartutils.fixWordLength(sname, constants.serviceNameLength) : chartutils.fixWordLength("??", constants.serviceNameLength);
       })
@@ -399,7 +401,7 @@ export function statusRings() {
 
         dispatch.call('nodeHovered',this, d, i, d.service.name, "#serviceCircle_" + i); //hack to keep lights on in circle
       })
-      .on('click', function (d: mytypes.Node, i: number) {
+      .on('click', function (d: graphs.Node, i: number) {
         D3.event.stopPropagation();
         dispatch.call('nodeClicked',this, d, i, d.service.name);
       })

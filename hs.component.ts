@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject} from '@angular/core';
 
-import { Graph, PWrapper, Patient, HealthStatusService } from './hs.types';
+import { PWrapper, Patient, HealthStatusService } from './hs.types';
+
+import  { graphs } from '@karlcode/d3-utils';
 
 //must be provided
 // import {MockHealthStatusService} from './mock-health-status.service';
@@ -27,7 +29,7 @@ export class HSChartComponent implements OnInit  {
   name = 'Angular';
 
   private rawmodel: PWrapper = {patients: []};
-  model: Graph
+  model: graphs.Graph
   
   getStatus(): void {
     this.healthStatusService.getStatus().then( stats => {
